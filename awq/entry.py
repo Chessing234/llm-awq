@@ -284,7 +284,9 @@ def main():
             from awq.quantize import get_smooth_scale
 
             act_scale = get_smooth_scale(args.model_path, args.media_path)
-            os.makedirs(os.path.dirname(args.act_scale_path), exist_ok=True)
+            _dir = os.path.dirname(args.act_scale_path)
+            if _dir:
+                os.makedirs(_dir, exist_ok=True)
             torch.save(act_scale, args.act_scale_path)
             print("Save act scales at " + str(args.act_scale_path))
             args.model_path = args.model_path + "/llm"
@@ -328,7 +330,9 @@ def main():
 
             results = {"ppl": ppl.item()}
             if args.output_path is not None:
-                os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
+                _dir = os.path.dirname(args.output_path)
+                if _dir:
+                    os.makedirs(_dir, exist_ok=True)
                 with open(args.output_path, "w") as f:
                     json.dump(results, f, indent=2)
         else:
@@ -346,7 +350,9 @@ def main():
             print(evaluator.make_table(results))
 
         if args.output_path is not None:
-            os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
+            _dir = os.path.dirname(args.output_path)
+            if _dir:
+                os.makedirs(_dir, exist_ok=True)
             # otherwise cannot save
             results["config"]["model"] = args.model_path
             with open(args.output_path, "w") as f:
