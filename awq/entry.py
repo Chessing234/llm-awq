@@ -209,8 +209,8 @@ def build_model_and_enc(model_path, dtype):
                 seqlen=512,
             )
             if args.dump_awq:
-                dirpath = os.path.dirname(args.dump_awq)
-                os.makedirs(dirpath, exist_ok=True)
+                dirpath = os.path.dirname(args.dump_awq)                if dirpath:
+                    os.makedirs(dirpath, exist_ok=True)
 
                 torch.save(awq_results, args.dump_awq)
                 print("AWQ results saved at", args.dump_awq)
@@ -238,8 +238,8 @@ def build_model_and_enc(model_path, dtype):
                     if not args.dump_quant.endswith("v2.pt"):
                         print("[Info] Auto-change the dump_quant file name to *v2.pt")
                         args.dump_quant = args.dump_quant.replace(".pt", "-v2.pt")
-                    dirpath = os.path.dirname(args.dump_quant)
-                    os.makedirs(dirpath, exist_ok=True)
+                    dirpath = os.path.dirname(args.dump_quant)                    if dirpath:
+                        os.makedirs(dirpath, exist_ok=True)
 
                     print(f"Saving the quantized model at {args.dump_quant}...")
                     torch.save(model.cpu().state_dict(), args.dump_quant)
